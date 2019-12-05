@@ -1,26 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import loginTransparency1 from './assets/transparency.png'
+import loginTransparency2 from './assets/transparency_2.png'
+import './App.scss';
+const styles = {
 
-function App() {
+}
+
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = { login: true };
+  }
+
+  renderLogin = () => {
+    return (
+      <MainContainer>
+        <BackgroundImage src={loginTransparency1} />
+        <BackgroundImage src={loginTransparency2} />
+        <div className='login-container'>olah</div>
+      </MainContainer>
+    )
+  }
+
+  renderDashboard = () => {
+    return (
+      <MainContainer>
+        <>hola</>
+      </MainContainer>
+    )
+  }
+
+  render() {
+    const { login } = this.state;
+    if (login) return this.renderLogin()
+    return this.renderDashboard()
+  }
+}
+
+function MainContainer(props) {
+  const { children } = props;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div className="main-container">{children}</div>
   );
 }
 
-export default App;
+function BackgroundImage(props) {
+  const { src, backgroundPosition } = props;
+  return (
+    <div
+      className="background-image"
+      style={{
+        backgroundImage: `url(${src})`,
+        backgroundPosition
+
+      }}
+    />
+  )
+}
