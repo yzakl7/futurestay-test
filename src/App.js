@@ -31,7 +31,7 @@ import './App.scss';
 export default class App extends Component {
   constructor() {
     super();
-    this.state = { login: false };
+    this.state = { login: true };
   }
 
   renderLogin = () => {
@@ -72,7 +72,7 @@ export default class App extends Component {
         >
           {this.renderLogin()}
         </div>
-        {this.renderDashboard()}
+        {!login && this.renderDashboard()}
       </>
     )
   }
