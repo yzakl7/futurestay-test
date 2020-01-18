@@ -1,15 +1,10 @@
 import React, { Component } from 'react'
-import './App.scss';
 
-export default function App() { 
-
-
-
-class Calendar extends Component {
+export default class Calendar extends Component {
   render() {
     return (
       <div>
-        123
+        Calendario
       </div>
     )
   }
