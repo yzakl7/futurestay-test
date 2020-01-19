@@ -1,21 +1,30 @@
-.calendar-wrapper {
-  border: 0.5px solid;
-  max-width: 500px;
-  .title-bar {
-    padding: 5px 0px;
-    display: flex;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: blue;
-    .day-label {
-      width: calc(100% / 7);
+.calendar-layout{
+  display: flex;
+  width: 100%;
+  max-width: calc(100% - 50px);
+  .calendar-wrapper {
+    border: 0.5px solid;
+    max-width: 500px;
+    .control-bar {
       display: flex;
       justify-content: center;
     }
-  }
-  .calendar-body {
-    display: flex;
-    flex-wrap: wrap;
+    .title-bar {
+      padding: 5px 0px;
+      display: flex;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: blue;
+      .day-label {
+        width: calc(100% / 7);
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .calendar-body {
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
 }
