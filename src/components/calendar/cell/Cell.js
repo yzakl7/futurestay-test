@@ -27,9 +27,10 @@ export default function Cell(props) {
     >
       <div style={{display: 'flex', justifyContent: "space-between"}}>
         <Text>{dayName}</Text>
-        {events && (
+        {events && events[0].icon &&(
             <div className="weather-icon" >
               <img src={events[0].icon} width="24px" height="24px" alt="weather_icon"/>
+        {console.log(events[0].icon)}
             </div>
         )}
       </div>

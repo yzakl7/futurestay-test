@@ -111,7 +111,7 @@ export default class EditView extends Component {
             }}
           >
             <Text size={SM}>Weather</Text>
-            {icon && <img src={icon} alt="weather_icon"/>}
+            {icon && <img src={icon} alt="i"/>}
             {weather && <Text>{weather.description}</Text>}
           </div>
         </div>
