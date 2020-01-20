@@ -33,7 +33,6 @@ export default class EditView extends Component {
   }
 
   renderEditView = () => {
-    const { updateEvent } = this.props;
     const {
       eventName,
       city,
@@ -79,13 +78,6 @@ export default class EditView extends Component {
           value={color}
           onChange={this.handleOnChange}
         />
-        <div className="buttons">
-          <Button text="Regresar" onClick={() => this.handleOnChange('view','list')} />
-          <Button text="Guardar" onClick={() => {
-            updateEvent(this.state);
-            this.handleOnChange('view','list');
-            }} />
-        </div>
       </div>
 
     )
@@ -134,19 +126,34 @@ export default class EditView extends Component {
 
   render() {
     const { today, view } = this.state;
-    const { deleteEvent, dayView, addEvent } = this.props;
+    const { updateEvent, deleteEvent, dayView, addEvent } = this.props;
     if ( view === 'list' && dayView) {
     return (
       <>
         <div className="timeline-container">
+          <div className="list-area">
           {this.renderListView(dayView)}
-          <div>
-            <Button text="Eliminar todas" onClick={deleteEvent} onClickParams={today} />
-            <Button text="Agregar" onClick={() => this.selectEvent(false)} onClickParams={today} />
+          </div>
+          <div className="button-area">
+            <Button icon="×" text="Eliminar todas" onClick={deleteEvent} onClickParams={today} />
+            <Button icon="+" text="Agragar" flexDirection="row-reverse" onClick={() => this.selectEvent(false)} onClickParams={today} />
           </div>
         </div>
       </>
     )}
-    return this.renderEditView()
+    return (
+      <div className="timeline-container">
+        <div className="list-area flex">
+          {this.renderEditView()}
+        </div>
+        <div className="button-area">
+          <Button icon={<Text style={{marginTop: '-5px'}}>‹</Text>} text="Regresar" onClick={() => this.handleOnChange('view','list')} />
+          <Button icon="✔" text="Guardar" onClick={() => {
+            updateEvent(this.state);
+            this.handleOnChange('view','list');
+            }} />
+        </div>
+      </div>
+      )
   }
 }

@@ -2,12 +2,13 @@
   display: flex;
   width: 100%;
   max-width: calc(100% - 50px);
+  max-height: calc(100vh - 50px);
   .calendar-wrapper {
-    border: 0.5px solid;
-    max-width: 500px;
+    max-width: 650px;
     .control-bar {
       display: flex;
       justify-content: center;
+      margin-bottom: 15px
     }
     .title-bar {
       padding: 5px 0px;
@@ -15,7 +16,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: blue;
+      background: rgb(79, 79, 129);
+      margin-bottom: 5px;
+      border-radius: 5px;
       .day-label {
         width: calc(100% / 7);
         display: flex;
@@ -25,6 +28,7 @@
     .calendar-body {
       display: flex;
       flex-wrap: wrap;
+      border: 1px solid;
     }
   }
 }

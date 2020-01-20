@@ -4,14 +4,14 @@ import './Calendar.scss'
 import moment from 'moment'
 import Cell from './cell/Cell';
 import EditView from './editView/EditView';
-import { BG } from '../../constants/layout';
+import { BG, BG2 } from '../../constants/layout';
 import Button from '../UI/Button';
 
 export default class Calendar extends Component {
   constructor() {
     super();
     this.events = {};
-    this.days = ['Sunday','Monday','Tuesday','Wednesday','thursday','Friday','Saturday']
+    this.days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
     this.state = {
       date: moment(),
       numberOfCells: moment().daysInMonth(),
@@ -23,11 +23,32 @@ export default class Calendar extends Component {
     };
   }
   componentDidMount() {
+    const { selectedDay } = this.state;
     let events = {
-      '2020117': [
-        {eventId:"1", eventName: 'Ejemplo', startAt: '11:00', endAt: '12:00', city: 'Mérida'},
-        {eventId:"2", eventName: 'Ejemplo 2', startAt: '09:00', endAt: '15:00', city: 'Mérida'},
-        {eventId:"3", eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+      '2020January17': [
+        {eventId:"1", color: '#e41818', eventName: 'Ejemplo', startAt: '11:00', endAt: '12:00', city: 'Mérida'},
+        {eventId:"2", color: '#1a18e4', eventName: 'Ejemplo 2', startAt: '09:00', endAt: '15:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
       ]
     }
     this.setState({events})
@@ -78,13 +99,14 @@ export default class Calendar extends Component {
   }
 
   deleteEvent = (eventDay, eventIndex) => {
+    const {selectedDay} = this.state;
     this.setState((prev) => {
       const newState = { ...prev }
       if (eventIndex){
         newState.events[eventDay].splice(eventIndex, 1)
       } else {
         newState.events[eventDay] = []
-        this.selectDay()
+        this.selectDay(selectedDay)
       }
 
       return newState
@@ -102,24 +124,19 @@ export default class Calendar extends Component {
     return this.days.map((day,i) => {
       return (
         <div key={`days${i}`} className="day-label">
-          <Text color="white">{day}</Text>
+          <Text color="white" fontSize={'bolder'}>{day}</Text>
         </div>
       )
     })
   }
 
   isWeekend = (day, monthDelta) => {
-    const { selectedMonth, selectedYear } = this.state;
-    const month = moment().add(monthDelta, 'M').format('MMMM')
-    let year =selectedYear;
-    if (selectedMonth === 'January' && monthDelta < 0) year = selectedYear -1
-    if (selectedMonth === 'December' && monthDelta > 0) year = selectedYear +1
-    const selectedDay = (
-      moment(
-        year + '-' + (
-          monthDelta ? month : selectedMonth
-        ) + '-' + day).format('dddd')
-      );
+    const { date } = this.state;
+    const newDate = new moment(date)
+    const selectedDate =  newDate.add(monthDelta, 'M')
+    const month = selectedDate.format('MMMM')
+    const year = selectedDate.format('YYYY')
+    const selectedDay = moment(`${year}-${month}-${day}`).format('dddd')
     if ( selectedDay === 'Saturday' || selectedDay === 'Sunday') return true;
     return false
 
@@ -128,7 +145,7 @@ export default class Calendar extends Component {
   getDayEvents = (day) => {
     const { selectedYear, selectedMonth, events} = this.state;
     if (events) {
-      const today = `${selectedYear}${(moment().month(selectedMonth).format("M"))}${day}`
+      const today = `${selectedYear}${selectedMonth}${day}`
       const ret = this.sortArraybyTime(events[today])
       return ret;
     }
@@ -138,7 +155,7 @@ export default class Calendar extends Component {
   selectDay = (day) => {
     const { selectedYear, selectedMonth} = this.state;
     const dayView = {}
-    const today = `${selectedYear}${(moment().month(selectedMonth).format("M"))}${day}`
+    const today = `${selectedYear}${selectedMonth}${day}`
     dayView.events = this.getDayEvents(day)
     dayView.events = this.getDayEvents(day)
     dayView.today = today
@@ -151,14 +168,15 @@ export default class Calendar extends Component {
   }
 
   renderCells = () => {
-    const { numberOfCells, selectedMonth, selectedYear } = this.state;
+    const { numberOfCells, selectedMonth, selectedYear, date, selectedDay } = this.state;
+    const newDate = new moment(date)
     const cellArray = []
     const startingDay = moment(`${selectedYear}-${selectedMonth}-1`).format('dddd');
     const endDay = moment(`${selectedYear}-${selectedMonth}-${numberOfCells}`).format('dddd');
     const arrLength =  this.days.length;
-    const numberOfPrevMonthDays = moment(`${selectedYear}-${selectedMonth}-1`).daysInMonth()
-
+    const numberOfPrevMonthDays = newDate.add(-1, 'M').daysInMonth()
     for (let i = 0; i < arrLength; i++) {
+      console.log({startingDay, day:this.days[i], date})
       if (startingDay !== this.days[i]) {
         cellArray.unshift(
           {
@@ -171,8 +189,6 @@ export default class Calendar extends Component {
       } else {
         break;
       }
-
-
     }
 
     for (let i = 1; i <= numberOfCells; i++) {
@@ -181,6 +197,7 @@ export default class Calendar extends Component {
         currentMonth: true,
         weekend: this.isWeekend(i),
         events: this.getDayEvents(i),
+        selected: i === selectedDay,
         onClick: this.selectDay
       })
     }
@@ -224,9 +241,9 @@ export default class Calendar extends Component {
       <div className="calendar-layout">
         <div className="calendar-wrapper">
           <div className="control-bar">
-            <Button text="Previuos" onClick={() => this.changeDate(-1)}/>
-            <Text size={BG} >{selectedMonth} - {selectedYear}</Text>
-            <Button text="Next" onClick={() => this.changeDate(+1)}/>
+            <Button icon={<Text style={{marginTop: '-5px'}}>‹</Text>} onClick={() => this.changeDate(-1)}/>
+            <Text fontSize={BG2} >{selectedMonth} - {selectedYear}</Text>
+            <Button icon={<Text style={{marginTop: '-5px'}}>›</Text>} onClick={() => this.changeDate(+1)}/>
           </div>
           <div className="title-bar">
             {this.renderDayTitles()}
@@ -236,14 +253,15 @@ export default class Calendar extends Component {
           </div>
         </div>
         {
-          console.log(dayView)
+          dayView !== 'Nada seleccionado' ? ( 
+            <EditView
+              deleteEvent={this.deleteEvent}
+              key={editViewKey}
+              dayView={dayView}
+              updateEvent={this.updateEvent}
+            />
+          ) : (<Text>{dayView}</Text>)
         }
-        <EditView
-          deleteEvent={this.deleteEvent}
-          key={editViewKey}
-          dayView={dayView}
-          updateEvent={this.updateEvent}
-          />
       </div>
     )
   }

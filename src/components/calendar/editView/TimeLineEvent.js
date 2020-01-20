@@ -8,7 +8,10 @@ export default function TimeLineEvent(props) {
   const { event, onClick, deleteEvent, today, index } = props;
   return (
     <div className="timeline-event-container">
-      <div onClick={() => onClick()} className="timeline-event-container">
+      <div
+        onClick={() => onClick()}
+        className="timeline-event-container"
+      >
         <div className="bullet-container">
           <div className="bullet" style={{background: event.color}}/>
         </div>
@@ -20,8 +23,8 @@ export default function TimeLineEvent(props) {
 
       </div>
       {/* {JSON.stringify(props)} */}
-      <div>
-        <Button text="Eliminar" onClick={() => deleteEvent(today, index)} />
+      <div className={`delete-button`}>
+        <Button icon="×" onClick={() => deleteEvent(today, index)} />
       </div>
     </div>
   )

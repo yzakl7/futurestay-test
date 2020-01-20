@@ -13,8 +13,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 body {
   line-height: 1;
-  background: #EAEAEA;
-
 }
 
 div {
@@ -49,8 +47,10 @@ table {
 }
 
 #MainContainer {
+  padding-top: 50px;
+  overflow: hidden;
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center
+  background: 'white'
 }

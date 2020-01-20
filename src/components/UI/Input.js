@@ -1,4 +1,5 @@
 import React from 'react'
+import './UI.scss'
 
 const renderOptions = (options) => {
   return options.map((opt) => {
@@ -22,9 +23,10 @@ const renderInputDefault = ({
 }) => {
   return (
     <input
-      maxlength={maxChars}
+      maxLength={maxChars}
       value={value}
       type={type}
+      className={type !== 'color' && 'input'}
       onChange={(e) => onChange(stateName, e.target.value)}
     />
   )

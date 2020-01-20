@@ -1,30 +1,64 @@
 .timeline-container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   max-width: 350px;
-
-  .timeline-event-container {
-    display: flex;
-    flex:1;
-    max-height: 75px;
-    .bullet-container {
-      width: 35px;
-      border-right: 3px solid rgba(0,0,0,0.35);
+  padding: 35px 15px; 
+  padding-right: 0;
+  box-sizing: border-box;
+  margin-bottom: 50px;
+  .list-area {
+    overflow: auto;
+    padding: 15px;
+    padding-left: 0;
+    height: 100%;
+    &.flex {display: flex;}
+    .timeline-event-container {
+      cursor: pointer;
       display: flex;
-      justify-content: flex-end;
-      .bullet {
-        height: 10px;
-        margin-top: 25px;
-        margin-right: -7px;
-        width: 10px;
-        border-radius: 50%;
-        background: black;
+      flex:1;
+      max-height: 75px;
+      .bullet-container {
+        width: 35px;
+        border-right: 3px solid rgba(0,0,0,0.35);
+        display: flex;
+        justify-content: flex-end;
+        .bullet {
+          height: 10px;
+          margin-top: 25px;
+          margin-right: -7px;
+          width: 10px;
+          border-radius: 50%;
+          background: black;
+        }
+      }
+      .event-details-container {
+        padding: 15px 0;
+        transition: ease-in-out all .3s;
+        padding-left: 35px;
+        &:hover {
+          transition: ease-in-out all .3s;
+          transform: scale(1.2);
+        }
+      }
+      .delete-button {
+        transition: ease-in-out all .3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
-    .event-details-container {
-      padding-left: 35px;
+    .edit-view-form {
+      display: flex;
+      justify-content: space-between;
+      flex:1;
     }
+  }
+  .button-area {
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
   }
 }
 
