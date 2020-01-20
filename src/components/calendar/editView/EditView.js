@@ -176,8 +176,10 @@ export default class EditView extends Component {
           {this.renderListView(dayView)}
           </div>
           <div className="button-area">
-            <Button icon="×" text="Eliminar todas" onClick={deleteEvent} onClickParams={today} />
-            <Button icon="+" text="Agragar" flexDirection="row-reverse" onClick={() => this.selectEvent(false)} onClickParams={today} />
+            {dayView.events && dayView.events.length > 1 ? (
+              <Button icon="×" text="Eliminar todas" onClick={deleteEvent} onClickParams={today} />
+            ) : <div/>}
+            <Button icon="+" text="Agregar" flexDirection="row-reverse" onClick={() => this.selectEvent(false)} onClickParams={today} />
           </div>
         </div>
       </>
@@ -188,6 +190,7 @@ export default class EditView extends Component {
           {this.renderEditView()}
         </div>
         <div className="button-area">
+        
           <Button icon={<Text style={{marginTop: '-5px'}}>‹</Text>} text="Regresar" onClick={() => this.handleOnChange('view','list')} />
           <Button
             icon="✔"
