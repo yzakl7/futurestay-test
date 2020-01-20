@@ -25,7 +25,14 @@ export default function Cell(props) {
         ${weekend && 'weekend'} ${selected && !(weekend || !currentMonth) && 'selected'}
       `}
     >
-      <Text>{dayName}</Text>
+      <div style={{display: 'flex', justifyContent: "space-between"}}>
+        <Text>{dayName}</Text>
+        {events && (
+            <div className="weather-icon" >
+              <img src={events[0].icon} width="24px" height="24px" alt="weather_icon"/>
+            </div>
+        )}
+      </div>
       {events && (
         <div className="event-indicators-container">
           {renderEvents(events)}
@@ -38,6 +45,6 @@ export default function Cell(props) {
  const renderEvents = (events) => {
    if (events && events.length > 0 )
   return events.map(({color},i) => {
-    return <Text key={color+i} style={{ marginLeft:'2px', marginRight: '2px'}} color={color}>*</Text>
+    return <Text key={Math.random()} style={{ marginLeft:'2px', marginRight: '2px'}} color={color}>*</Text>
   })
  }

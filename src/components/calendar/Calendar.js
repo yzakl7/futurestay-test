@@ -22,40 +22,19 @@ export default class Calendar extends Component {
       editViewKey: Math.random()
     };
   }
-  componentDidMount() {
-    const { selectedDay } = this.state;
-    let events = {
-      '2020January17': [
-        {eventId:"1", color: '#e41818', eventName: 'Ejemplo', startAt: '11:00', endAt: '12:00', city: 'Mérida'},
-        {eventId:"2", color: '#1a18e4', eventName: 'Ejemplo 2', startAt: '09:00', endAt: '15:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-        {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-      ]
-    }
-    this.setState({events})
-  }
-
-
+  // componentDidMount() {
+  //   const { selectedDay } = this.state;
+  //   let events = {
+  //     '2020January17': [
+  //       {eventId:"1", color: '#e41818', eventName: 'Ejemplo', startAt: '11:00', endAt: '12:00', city: 'Mérida'},
+  //       {eventId:"2", color: '#1a18e4', eventName: 'Ejemplo 2', startAt: '09:00', endAt: '15:00', city: 'Mérida'},
+  //       {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
+  //     ]
+  //   }
+  //   this.setState({events})
+  // }
   updateEvent = (updatedEvent) => {
+    console.log({updatedEvent} )
     const { events, dayView, selectedDay } = this.state;
     const { index, today,
       city,
@@ -63,31 +42,38 @@ export default class Calendar extends Component {
       eventId,
       eventName,
       startAt,
-      color
+      color,
+      weather,
+      icon
     } = updatedEvent;
     const newEvents = { ...events };
     const newDayView = { ...dayView };
-    if ( index ) {
+    if (!newEvents[today]){
+      newEvents[today] = []
+    }
+    if ( index !== undefined ) {
       newEvents[today][index] = {
         city,
         endAt,
         eventId,
         eventName,
         startAt,
-        color
+        color,
+        weather,
+        icon
       }
+    } else {
+      newEvents[today].push({
+        city,
+        endAt,
+        eventId,
+        eventName,
+        startAt,
+        color,
+        weather,
+        icon
+      })
     }
-    if (!newEvents[today]){
-      newEvents[today] = []
-    }
-    newEvents[today].push({
-      city,
-      endAt,
-      eventId,
-      eventName,
-      startAt,
-      color
-    })
     // this.getDayEvents(selectedDay);
     this.setState({
       events: newEvents,
@@ -99,10 +85,11 @@ export default class Calendar extends Component {
   }
 
   deleteEvent = (eventDay, eventIndex) => {
+    console.log({eventDay, eventIndex})
     const {selectedDay} = this.state;
     this.setState((prev) => {
       const newState = { ...prev }
-      if (eventIndex){
+      if (eventIndex !== undefined){
         newState.events[eventDay].splice(eventIndex, 1)
       } else {
         newState.events[eventDay] = []
@@ -176,7 +163,6 @@ export default class Calendar extends Component {
     const arrLength =  this.days.length;
     const numberOfPrevMonthDays = newDate.add(-1, 'M').daysInMonth()
     for (let i = 0; i < arrLength; i++) {
-      console.log({startingDay, day:this.days[i], date})
       if (startingDay !== this.days[i]) {
         cellArray.unshift(
           {
@@ -224,15 +210,14 @@ export default class Calendar extends Component {
     const { date } = this.state;
 
     const newDate = date.add(delta, 'M')
-
     this.setState({
-
+      dayView:'Nada seleccionado',
       numberOfCells: newDate.daysInMonth(),
       selectedMonth: newDate.format('MMMM'),
       selectedDay: newDate.date(),
       selectedYear: newDate.year(),
     })
-   
+
   }
 
   render() {
@@ -253,7 +238,7 @@ export default class Calendar extends Component {
           </div>
         </div>
         {
-          dayView !== 'Nada seleccionado' ? ( 
+          dayView !== 'Nada seleccionado' ? (
             <EditView
               deleteEvent={this.deleteEvent}
               key={editViewKey}

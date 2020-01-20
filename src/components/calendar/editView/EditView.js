@@ -5,6 +5,7 @@ import TimeLineEvent from './TimeLineEvent';
 import Input from '../../UI/Input';
 import { SM } from '../../../constants/layout';
 import Button from '../../UI/Button';
+import getWeather from '../../../apis/openWheater';
 
 export default class EditView extends Component {
   constructor() {
@@ -16,6 +17,7 @@ export default class EditView extends Component {
       endAt: "",
       eventId: "",
       startAt: "",
+      color: "#EAEAEA",
     }
   }
 
@@ -32,13 +34,31 @@ export default class EditView extends Component {
     this.setState({[state]: value})
   }
 
+  getWeather = (params) => {
+    getWeather(params)
+      .then(({weather})=>{
+        const icon = `http://openweathermap.org/img/wn/${weather[0].icon}.png`
+        this.setState({
+          weather: weather[0],
+          icon
+        })
+        return true
+      })
+      .catch((res)=>{
+        return false;
+      })
+    return null;
+  }
+
   renderEditView = () => {
     const {
       eventName,
       city,
       color,
       endAt,
-      startAt
+      startAt,
+      weather,
+      icon
     } = this.state;
     return (
       <div className="edit-view-form">
@@ -51,6 +71,8 @@ export default class EditView extends Component {
         />
         <Text size={SM}>Ciudad</Text>
         <Input
+          onBlur={this.getWeather}
+          onBlurParams={city}
           stateName={'city'}
           value={city}
           onChange={this.handleOnChange}
@@ -71,13 +93,28 @@ export default class EditView extends Component {
           value={endAt}
           onChange={this.handleOnChange}
         />
-        <Text size={SM}>Color</Text>
-        <Input
-          stateName={'color'}
-          type={'color'}
-          value={color}
-          onChange={this.handleOnChange}
-        />
+        <div style={{display:'flex', justifyContent: 'space-between'}}>
+          <div>
+            <Text size={SM}>Color</Text>
+            <Input
+              stateName={'color'}
+              type={'color'}
+              value={color}
+              onChange={this.handleOnChange}
+            />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}
+          >
+            <Text size={SM}>Weather</Text>
+            {icon && <img src={icon} alt="weather_icon"/>}
+            {weather && <Text>{weather.description}</Text>}
+          </div>
+        </div>
       </div>
 
     )
@@ -90,7 +127,9 @@ export default class EditView extends Component {
       endAt,
       eventId,
       startAt,
-      color
+      color,
+      weather,
+      icon
     } = event;
     this.setState({
       view: 'event',
@@ -100,7 +139,9 @@ export default class EditView extends Component {
       eventId,
       startAt,
       index,
-      color
+      color,
+      weather,
+      icon
     })
   }
 
@@ -111,7 +152,7 @@ export default class EditView extends Component {
       return events.map((ev, i) => {
         return (
           <TimeLineEvent
-            key={Math.random()}
+            key={Math.random() + i}
             deleteEvent={deleteEvent}
             onClick={() => this.selectEvent(ev, i)}
             event={ev}
@@ -125,8 +166,8 @@ export default class EditView extends Component {
   }
 
   render() {
-    const { today, view } = this.state;
-    const { updateEvent, deleteEvent, dayView, addEvent } = this.props;
+    const { today, view, city } = this.state;
+    const { updateEvent, deleteEvent, dayView } = this.props;
     if ( view === 'list' && dayView) {
     return (
       <>
@@ -148,9 +189,13 @@ export default class EditView extends Component {
         </div>
         <div className="button-area">
           <Button icon={<Text style={{marginTop: '-5px'}}>‹</Text>} text="Regresar" onClick={() => this.handleOnChange('view','list')} />
-          <Button icon="✔" text="Guardar" onClick={() => {
-            updateEvent(this.state);
-            this.handleOnChange('view','list');
+          <Button
+            icon="✔"
+            text="Guardar"
+            onClick={ async() => {
+              this.getWeather(city)
+                updateEvent(this.state);
+                this.handleOnChange('view','list');
             }} />
         </div>
       </div>

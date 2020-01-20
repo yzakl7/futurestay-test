@@ -19,15 +19,18 @@ const renderInputDefault = ({
   value,
   onChange,
   maxChars,
-  type
+  type,
+  onBlur,
+  onBlurParams
 }) => {
   return (
     <input
       maxLength={maxChars}
-      value={value}
+      defaultValue={value}
       type={type}
-      className={type !== 'color' && 'input'}
+      className={type !== 'color' ? 'input' : undefined}
       onChange={(e) => onChange(stateName, e.target.value)}
+      onBlur={() => onBlur && onBlur(onBlurParams)}
     />
   )
 } 
