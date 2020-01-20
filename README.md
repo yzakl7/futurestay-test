@@ -6,6 +6,6 @@ Librerias usadas: moment.js, Axios y react
 
 APIS: openweathermap
 
-No econtré un endpoint que me del clima dependiendo del día ingresado, sólo del dia actual, asi que a modo de ejemplo, el clima que se guarda siempre es el de hoy. (ejemplo de llamadas HHTP)
+No econtré endpoint que me de prediccion clima dependiendo del día ingresado, sólo del dia actual, asi que a modo de ejemplo, el clima que se guarda siempre es el de hoy.
 
 Saludos
