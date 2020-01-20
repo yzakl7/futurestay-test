@@ -4,7 +4,7 @@ import './Calendar.scss'
 import moment from 'moment'
 import Cell from './cell/Cell';
 import EditView from './editView/EditView';
-import { BG, BG2 } from '../../constants/layout';
+import { BG2 } from '../../constants/layout';
 import Button from '../UI/Button';
 
 export default class Calendar extends Component {
@@ -22,19 +22,10 @@ export default class Calendar extends Component {
       editViewKey: Math.random()
     };
   }
-  // componentDidMount() {
-  //   const { selectedDay } = this.state;
-  //   let events = {
-  //     '2020January17': [
-  //       {eventId:"1", color: '#e41818', eventName: 'Ejemplo', startAt: '11:00', endAt: '12:00', city: 'Mérida'},
-  //       {eventId:"2", color: '#1a18e4', eventName: 'Ejemplo 2', startAt: '09:00', endAt: '15:00', city: 'Mérida'},
-  //       {eventId:"3", color: '#8ff025', eventName: 'Ejemplo 3', startAt: '08:00', endAt: '13:00', city: 'Mérida'},
-  //     ]
-  //   }
-  //   this.setState({events})
-  // }
+  componentDidMount() {
+    console.clear();
+  }
   updateEvent = (updatedEvent) => {
-    console.log({updatedEvent} )
     const { events, dayView, selectedDay } = this.state;
     const { index, today,
       city,
@@ -85,7 +76,6 @@ export default class Calendar extends Component {
   }
 
   deleteEvent = (eventDay, eventIndex) => {
-    console.log({eventDay, eventIndex})
     const {selectedDay} = this.state;
     this.setState((prev) => {
       const newState = { ...prev }
